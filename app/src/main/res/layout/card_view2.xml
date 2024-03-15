@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d5e1ed"
+    android:clipToOutline="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:id="@+id/card2"
+        android:background="#d5e1ed"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="10dp"
+        >
+        <RelativeLayout
+            android:id="@+id/VsHolder"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:background="#171616"
+            android:clipToOutline="true"
+            android:orientation="horizontal">
+
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true" />
+
+<!--            <VideoView-->
+<!--                android:id="@+id/videoView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:clipToOutline="true"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:layout_marginTop="10dp" />-->
+
+<!--            <SeekBar-->
+<!--                android:id="@+id/videoSeekBar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="5dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:elevation="4dp"-->
+<!--                android:outlineAmbientShadowColor="@color/colorPrimary"-->
+<!--                android:thumb="@drawable/custom_seekbar_thumb"-->
+<!--                android:progressDrawable="@drawable/custom_seekbar_progress"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/videoView"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:layout_below="@id/videoView"/>-->
+
+
+<!--            &lt;!&ndash; Initially visible &ndash;&gt;-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/videoSeekBarTimeFlash"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_below="@id/videoSeekBar"-->
+<!--                android:textColor="@android:color/black"-->
+<!--                android:textSize="12sp"-->
+<!--                android:visibility="gone"-->
+<!--                android:padding="8dp" />-->
+
+<!--            &lt;!&ndash; Pause Button &ndash;&gt;-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/playButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignTop="@id/videoView"-->
+<!--                android:layout_alignBottom="@id/videoView"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:background="@color/transparent"-->
+<!--                android:src="@drawable/baseline_play_circle_outline_24"-->
+<!--                android:visibility="visible" />-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/pauseButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignTop="@id/videoView"-->
+<!--                android:layout_alignBottom="@id/videoView"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:background="@color/transparent"-->
+<!--                android:src="@drawable/baseline_pause_circle_outline_24"-->
+<!--                android:visibility="gone" />-->
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="0dp"
+            android:clipToOutline="true"
+            android:background="@color/white"
+            android:layout_below="@+id/VsHolder"
+            android:layout_marginTop="220dp">
+
+            <TextView
+                android:id="@+id/Description"
+                android:layout_width="314dp"
+                android:layout_height="350dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="false"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:clipToOutline="true"
+                android:layout_marginBottom="50dp"
+                android:background="@color/white"
+                android:fontFamily="@font/genos_light"
+                android:padding="12dp"
+                android:text="\n\tDescription"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/signName"
+                android:layout_below="@+id/Description"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="signature"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:textAlignment="gravity"
+                android:paddingStart="20dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/genos_light"
+                android:textColor="@color/black"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="12dp"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

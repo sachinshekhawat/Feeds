@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "67237778210",
+    "project_id": "shortscl",
+    "storage_bucket": "shortscl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67237778210:android:e40e792683caeec24d8b7b",
+        "android_client_info": {
+          "package_name": "com.example.inshortsclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvZNRlfBUKafBfjw96BDv1sYwhW3uqWjU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
