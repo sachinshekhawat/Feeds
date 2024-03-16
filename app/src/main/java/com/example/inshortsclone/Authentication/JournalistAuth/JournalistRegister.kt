@@ -1,6 +1,8 @@
 package com.example.inshortsclone.Authentication.JournalistAuth
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -32,12 +34,13 @@ class JournalistRegister : AppCompatActivity() {
         }
 
         binding.RegisterJourButton.setOnClickListener {
-            val employeeId = binding.inputEmployeeId.text.toString().trim { it <= ' ' }
+
             val name = binding.inputName.text.toString().trim { it <= ' ' }
             val email = binding.inputEmail.text.toString().trim { it <= ' ' }
             val password = binding.inputPassword.text.toString().trim { it <= ' ' }
+            val employeeId = employeeIdGen(email,name)
 
-            Toast.makeText(this,"user id : $uid",Toast.LENGTH_LONG).show()
+          //  Toast.makeText(this,"user id : $uid",Toast.LENGTH_LONG).show()
             if (employeeId.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -123,7 +126,42 @@ class JournalistRegister : AppCompatActivity() {
         }
     }
 
-        private fun showProgressBar() {
+        private fun employeeIdGen(email:String , name:String):String{
+            val namePrefix = name.take(4).toLowerCase()
+
+            // Extract the last 4 characters before the @ symbol in the email
+            val emailPrefix = email.substringBeforeLast('@').takeLast(4)
+
+            // Generate 2 random digits
+            val randomDigits = (99..999).random().toString().padStart(3, '0')
+
+            val employeeId = "$namePrefix$emailPrefix$randomDigits@feeds.com"
+            // Concatenate the components and append "@feeds.com"
+            //sendEmail(email,employeeId)
+            Toast.makeText(this,"Your EmployeeID is $employeeId",Toast.LENGTH_SHORT).show()
+            return employeeId
+        }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun sendEmail(email: String, employeeId: String) {
+        val subject = "Your Employee ID for FEEDS"
+        val message = "Welcome! Your employee ID for FEEDS is: $employeeId. ,\n Remember it ! and Welcome to our small family with big vision."
+
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:$email")
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, message)
+        }
+
+        if (intent.resolveActivity(packageManager) != null) {
+           // startActivity(intent)
+        } else {
+            startActivity(intent)
+           // Toast.makeText(this, "No email client found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showProgressBar() {
             binding.progressBar.visibility = View.VISIBLE
         }
 

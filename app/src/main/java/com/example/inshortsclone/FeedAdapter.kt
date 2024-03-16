@@ -36,7 +36,7 @@ class FeedAdapter(val context:Context, var data : List<FeedItem> = mutableListOf
         val videoUrl  = data[position].link
 
         holder.textView.text = data[position].description
-        val user = "shorts by :"
+        val user = "shorts by "
         holder.jName.text = data[position].jName
         "$user${" " + holder.jName.text}".also { holder.jName.text = it }
 
@@ -46,10 +46,10 @@ class FeedAdapter(val context:Context, var data : List<FeedItem> = mutableListOf
         holder.playerView.player = player
 
         val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
-        Toast.makeText(context, videoUrl, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, videoUrl, Toast.LENGTH_SHORT).show()
         player.setMediaItem(mediaItem)
         player.prepare()
-        player.play()
+        player.pause()
 
     }
 

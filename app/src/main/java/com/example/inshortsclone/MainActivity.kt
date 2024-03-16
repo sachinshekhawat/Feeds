@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -63,14 +64,14 @@ class MainActivity : AppCompatActivity() {
 
         feedAdapter = FeedAdapter(this)
 
-
-//        GlobalScope.launch {
-//            viewModel.fetchDataFromFirestore()
-//            delay(500)
-//        }
+        Toast.makeText(this,"Data is Loading...",Toast.LENGTH_SHORT).show()
+        GlobalScope.launch {
+            viewModel.fetchDataFromFirestore()
+            delay(1000)
+        }
 
         viewPager.adapter = feedAdapter
-       // viewModel.fetchDataFromFirestore()
+        //viewModel.fetchDataFromFirestore()
 
         viewModel.feedItems.observe(this) { feedItems ->
             feedAdapter.updateFeedItems(feedItems)

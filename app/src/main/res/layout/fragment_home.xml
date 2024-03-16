@@ -13,6 +13,15 @@
         android:orientation="vertical"
         android:clipToOutline="true" />
 
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Your Feed is empty! ,Publish "-->
+<!--        android:textAlignment="center"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="40dp"-->
+<!--        android:fontFamily="@font/genos_light"/>-->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabOptions"
         android:layout_width="wrap_content"

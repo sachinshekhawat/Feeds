@@ -75,39 +75,94 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private fun checkData() {
 
             val password=etemail.text.toString().trim{it<=' '}
-            if(password.isEmpty())
-            {
-                showerrorsnackbar("Please Enter Your Email")
-            }
-            if (!password.isEmpty())
-            {
-                showprogressdialog("Sending Email...")
-                mauth.sendPasswordResetEmail(password).addOnCompleteListener {
-                        task->hideprogressdialog()
-                    if(task.isSuccessful)
-                    {
-                        val layout123=layoutInflater.inflate(R.layout.custom_toast_layout,findViewById(R.id.view_layout_of_toast))
-                        val   toast4: Toast = Toast(this)
-                        toast4.view=layout123
-                        val txtmsg12:TextView=layout123.findViewById(R.id.textview_toast)
-                        txtmsg12.setText( "Email Sent Successfully,You Can Now Reset Your Password")
-                        toast4.duration.toLong()
-                        toast4.show()
-                        finish()
-                    }
-                    else
-                    {
-                        val layout1=layoutInflater.inflate(R.layout.error_toast_layout,findViewById(R.id.view_layout_of_toast1))
-                        val toast1: Toast = Toast(this)
-                        toast1.view=layout1
-                        val txtmsg1:TextView=layout1.findViewById(R.id.textview_toast1)
-                        txtmsg1.setText(task.exception!!.message)
-                        toast1.duration.toShort()
-                        toast1.show()
-                    }
-                }
+            val email = password.trim()
 
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // Invalid email format
+            Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+// Check if the email address is registered with Firebase Authentication
+        mauth.fetchSignInMethodsForEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val signInMethods = task.result?.signInMethods ?: emptyList()
+                    if (signInMethods.isNotEmpty()) {
+                        // Email is registered
+                        // Send password reset email
+                        showprogressdialog("Sending Email...")
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                            .addOnCompleteListener { resetTask ->
+                                hideprogressdialog()
+                                if (resetTask.isSuccessful) {
+                                    // Email sent successfully
+                                    val layout123 = layoutInflater.inflate(R.layout.custom_toast_layout, findViewById(R.id.view_layout_of_toast))
+                                    val toast4: Toast = Toast(this)
+                                    toast4.view = layout123
+                                    val txtmsg12: TextView = layout123.findViewById(R.id.textview_toast)
+                                    txtmsg12.setText("Email Sent Successfully, You Can Now Reset Your Password")
+                                    toast4.duration.toLong()
+                                    toast4.show()
+                                    finish()
+                                } else {
+                                    // Failed to send email
+                                    val layout1 = layoutInflater.inflate(R.layout.error_toast_layout, findViewById(R.id.view_layout_of_toast1))
+                                    val toast1: Toast = Toast(this)
+                                    toast1.view = layout1
+                                    val txtmsg1: TextView = layout1.findViewById(R.id.textview_toast1)
+                                    txtmsg1.setText(resetTask.exception?.message ?: "Failed to send email")
+                                    toast1.duration.toShort()
+                                    toast1.show()
+                                }
+                            }
+                    } else {
+                        // Email is not registered
+                        Toast.makeText(this, "Email is not registered. Please register first", Toast.LENGTH_SHORT).show()
+                        // Navigate to registration activity
+                        // Example:
+//                         startActivity(Intent(this,RegisterationActivity::class.java))
+                    }
+                } else {
+                    // Failed to check email registration status
+                    Toast.makeText(this, "Failed to check email registration status", Toast.LENGTH_SHORT).show()
+                }
             }
+
+//            if(password.isEmpty())
+//            {
+//                showerrorsnackbar("Please Enter Your Email")
+//            }
+//            if (!password.isEmpty())
+//            {
+//                showprogressdialog("Sending Email...")
+//                mauth.sendPasswordResetEmail(password).addOnCompleteListener {
+//                        task->hideprogressdialog()
+//                    if(task.isSuccessful)
+//                    {
+//                        val layout123=layoutInflater.inflate(R.layout.custom_toast_layout,findViewById(R.id.view_layout_of_toast))
+//                        val   toast4: Toast = Toast(this)
+//                        toast4.view=layout123
+//                        val txtmsg12:TextView=layout123.findViewById(R.id.textview_toast)
+//                        txtmsg12.setText( "Email Sent Successfully,You Can Now Reset Your Password")
+//                        toast4.duration.toLong()
+//                        toast4.show()
+//                        finish()
+//                    }
+//                    else
+//                    {
+//                        val layout1=layoutInflater.inflate(R.layout.error_toast_layout,findViewById(R.id.view_layout_of_toast1))
+//                        val toast1: Toast = Toast(this)
+//                        toast1.view=layout1
+//                        val txtmsg1:TextView=layout1.findViewById(R.id.textview_toast1)
+//                        txtmsg1.setText(task.exception!!.message)
+//                        toast1.duration.toShort()
+//                        toast1.show()
+//                    }
+//                }
+//
+//            }
     }
 
     fun showerrorsnackbar(message:String){

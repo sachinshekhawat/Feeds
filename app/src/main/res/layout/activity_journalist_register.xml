@@ -18,7 +18,7 @@
         android:textColor="@color/black"
         android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/inputEmployeeId"
+        app:layout_constraintBottom_toTopOf="@+id/inputEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -86,29 +86,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.433" />
 
-    <EditText
-        android:id="@+id/inputEmployeeId"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="252dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/round_border"
-        android:drawableLeft="@drawable/ic_person"
-        android:drawablePadding="16dp"
-        android:ems="10"
-        android:fontFamily="@font/genos_light"
-        android:hint="Employee Id (Unique Id)"
-        android:inputType="textVisiblePassword"
-        android:padding="16dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/RegisterJourButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.514" />
+<!--    <EditText-->
+<!--        android:id="@+id/inputEmployeeId"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginTop="252dp"-->
+<!--        android:layout_marginEnd="32dp"-->
+<!--        android:background="@drawable/round_border"-->
+<!--        android:drawableLeft="@drawable/ic_person"-->
+<!--        android:drawablePadding="16dp"-->
+<!--        android:ems="10"-->
+<!--        android:fontFamily="@font/genos_light"-->
+<!--        android:hint="Employee Id (Unique Id)"-->
+<!--        android:inputType="textVisiblePassword"-->
+<!--        android:padding="16dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="@color/black"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/RegisterJourButton"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.514" />-->
 
     <EditText
         android:id="@+id/inputPassword"
@@ -131,7 +131,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputEmployeeId"
+        app:layout_constraintTop_toBottomOf="@+id/inputEmail"
         app:layout_constraintVertical_bias="0.076" />
 
     <Button
@@ -151,7 +151,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787" />
+        app:layout_constraintVertical_bias="0.712" />
 
     <TextView
         android:id="@+id/gotoLoginJour"
@@ -169,6 +169,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterJourButton"
         app:layout_constraintVertical_bias="0.312" />
+
+    <TextView
+        android:id="@+id/textemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contextClickable="true"
+        android:fontFamily="@font/genos_light"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="! After Successful Registeration , Note Down Your EmployeeID from your profile section. !"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterJourButton"
+        app:layout_constraintVertical_bias="0.803" />
 
     <ProgressBar
         android:id="@+id/progressBar"

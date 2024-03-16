@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#d5d3ed"
+    android:background="@color/grey"
     android:clipToOutline="true"
     android:padding="1dp">
 
@@ -20,7 +20,7 @@
             android:clipToOutline="true"
             app:title="Recent Feeds"
             app:menu="@menu/top_menu2"
-            android:background="#d5e1ed"
+            android:background="@color/white"
             />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appbar"
-        android:layout_marginTop="1dp"
+        android:background="@color/grey"
         android:clipToOutline="true" />
 
     <ProgressBar

@@ -31,9 +31,9 @@ class HomeAdapter(val context:Context) : RecyclerView.Adapter<HomeAdapter.HomeVi
 //        holder.bind(feedList[position])
 
         val videoUrl:String  = feedList[position].link
-        val user = "shorts by :"
+        val user = "shorts by "
         holder.sign.text = feedList[position].jName
-        "$user${" " +  holder.sign.text + "(me)"}".also { holder.sign.text = it }
+        "$user${" " +  holder.sign.text + " (you)"}".also { holder.sign.text = it }
         holder.textView.text = feedList[position].description
 
 //        holder.videoView.foreground = null

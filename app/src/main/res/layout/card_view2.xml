@@ -12,8 +12,8 @@
         android:layout_marginTop="5dp"
         android:id="@+id/card2"
         android:background="#d5e1ed"
-        android:layout_marginBottom="8dp"
-        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="1dp"
+        app:cardCornerRadius="6dp"
         >
         <RelativeLayout
             android:id="@+id/VsHolder"
