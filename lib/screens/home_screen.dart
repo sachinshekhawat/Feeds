@@ -1,5 +1,6 @@
 //import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_projects/screens/video_screen.dart';
 import 'package:flutter_projects/services/json_service.dart';
 import 'package:video_player/video_player.dart';
 class HomeScreen extends StatefulWidget {
@@ -45,26 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: DATA.length,
           shrinkWrap: false,
           itemBuilder: (context,index){
-
-            VideoPlayerController _controller = VideoPlayerController.networkUrl(
-              Uri.parse(DATA[index]["url"].toString()),
-            );
-            // Future<void> _initializeVideoPlayerFuture() async{
-            //   setState(() {
-            //     _controller.initialize().then((value){
-            //       _controller.play();
-            //     });
-            //   });
-            // }
-
-            // if(DATA[index]["tag"]=="video"){
-            //   print("video data");
-            //   print(DATA[index]["url"].toString());
-            //   _initializeVideoPlayerFuture = Future.delayed(Duration.zero,(){
-            //
-            //   });
-            // }
-
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -87,25 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height/1.3,
-                        child: FutureBuilder(
-                          future: _controller.initialize().then((value){
-                            setState(() {
-                              _controller.play();
-                            });
-                          }),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              return AspectRatio(
-                                aspectRatio: _controller.value.aspectRatio,
-                                child: VideoPlayer(_controller),
-                              );
-                            } else {
-                              return const Center(
-                                child: CircularProgressIndicator(color: Colors.black,),
-                              );
-                            }
-                          },
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
+                        child: VideoScreen(),
                       ):
                       DATA[index]["tag"] == "imageAndText"?
                       Container(
