@@ -12,6 +12,13 @@ class _VideoScreenState extends State<VideoScreen> {
   late VideoPlayerController controller;
 
   @override
+  void dispose() {
+    super.dispose();
+    controller.pause();
+    controller.dispose();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();

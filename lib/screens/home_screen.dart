@@ -1,7 +1,10 @@
 //import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_projects/screens/negative_screen.dart';
+import 'package:flutter_projects/screens/positive_screen.dart';
 import 'package:flutter_projects/screens/video_screen.dart';
 import 'package:flutter_projects/services/json_service.dart';
+import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:video_player/video_player.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,8 +17,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int currentTabIndex = 0;
 
+  void _handleCallbackEvent(ScrollDirection direction, ScrollSuccess success,
+      {int? currentIndex}) {
+    print("Scroll callback received with data: {direction: $direction, success: $success and index: ${currentIndex ?? 'not given'}}");
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final Controller controller = Controller()..addListener((event) {
+      _handleCallbackEvent(event.direction, event.success);
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -41,11 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
       ),
-      body: currentTabIndex==0? ListView.builder(
-          physics: PageScrollPhysics(),
-          itemCount: DATA.length,
-          shrinkWrap: false,
-          itemBuilder: (context,index){
+      body: currentTabIndex==0? TikTokStyleFullPageScroller(
+          contentSize: DATA.length,
+          swipePositionThreshold: 0.2,
+          swipeVelocityThreshold: 2000,
+          animationDuration: const Duration(milliseconds: 400),
+          controller: controller,
+          builder: (context,index){
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -90,8 +106,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(onPressed: (){}, icon: Icon(Icons.arrow_left,size: 50,)),
-                          IconButton(onPressed: (){}, icon: Icon(Icons.arrow_right,size: 50,))
+                          IconButton(onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                              return NegativeScreen();
+                            }));
+                          }, icon: Icon(Icons.arrow_left,size: 50,)),
+                          IconButton(onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                              return PositiveScreen();
+                            }));
+                          }, icon: Icon(Icons.arrow_right,size: 50,))
                         ],
                       ),
                     ),
