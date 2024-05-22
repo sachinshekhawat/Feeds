@@ -17,18 +17,118 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int currentTabIndex = 0;
 
-  void _handleCallbackEvent(ScrollDirection direction, ScrollSuccess success,
-      {int? currentIndex}) {
-    print("Scroll callback received with data: {direction: $direction, success: $success and index: ${currentIndex ?? 'not given'}}");
+  List<Widget> list = [];
 
+  void makeWidgetList(BuildContext context){
+    int n = DATA.length;
+    for(int i=0;i<n;i++){
+      //setState(() {
+        list.add(
+
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/1.3,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(//video container
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height/1.3,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          ),
+                          child: DATA[i]["tag"] == "video"?
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/1.3,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(Radius.circular(10))
+                            ),
+                            child: VideoScreen(),
+                          ):
+                          DATA[i]["tag"] == "imageAndText"?
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/1.3,
+                            //imagetext
+                          ):
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/1.3,
+                            //text
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                  return NegativeScreen();
+                                }));
+                              }, icon: Icon(Icons.arrow_left,size: 50,)),
+                              IconButton(onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                  return PositiveScreen();
+                                }));
+                              }, icon: Icon(Icons.arrow_right,size: 50,))
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            children: [
+                              IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
+                              IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
+                              IconButton(onPressed: (){}, icon: Icon(Icons.share)),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                )
+            )
+
+        );
+      //});
+    }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //makeWidgetList(context);
+  }
+
+  PageController pageController = PageController();
+
+  // void _handleCallbackEvent(ScrollDirection direction, ScrollSuccess success,
+  //     {int? currentIndex}) {
+  //   print("Scroll callback received with data: {direction: $direction, success: $success and index: ${currentIndex ?? 'not given'}}");
+  //
+  // }
+
+  final ValueNotifier<int> buildCount = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
 
-    final Controller controller = Controller()..addListener((event) {
-      _handleCallbackEvent(event.direction, event.success);
-    });
+    // final Controller controller = Controller()..addListener((event) {
+    //   _handleCallbackEvent(event.direction, event.success);
+    // });
+
+    //makeWidgetList(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -55,85 +155,174 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
       ),
-      body: currentTabIndex==0? TikTokStyleFullPageScroller(
-          contentSize: DATA.length,
-          swipePositionThreshold: 0.2,
-          swipeVelocityThreshold: 2000,
-          animationDuration: const Duration(milliseconds: 400),
-          controller: controller,
-          builder: (context,index){
+      body: currentTabIndex==0?
+
+        ListView.builder(
+          itemCount: DATA.length,
+          scrollDirection: Axis.vertical,
+          addAutomaticKeepAlives: false,
+          // onPageChanged: (num){
+          //   buildCount.value++;
+          // },
+          itemBuilder: (context,i){
             return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/1.3,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: Stack(
-                  children: [
-                    Container(//video container
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height/1.3,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10))
-                      ),
-                      child: DATA[index]["tag"] == "video"?
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height/1.3,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10))
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/1.3,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(//video container
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height/1.3,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          ),
+                          child: DATA[i]["tag"] == "video"?
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/1.3,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(Radius.circular(10))
+                            ),
+                            child: VideoScreen(),
+                          ):
+                          DATA[i]["tag"] == "imageAndText"?
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/1.3,
+                            //imagetext
+                          ):
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/1.3,
+                            //text
+                          ),
                         ),
-                        child: VideoScreen(),
-                      ):
-                      DATA[index]["tag"] == "imageAndText"?
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height/1.3,
-                      ):
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height/1.3,
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                              return NegativeScreen();
-                            }));
-                          }, icon: Icon(Icons.arrow_left,size: 50,)),
-                          IconButton(onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                              return PositiveScreen();
-                            }));
-                          }, icon: Icon(Icons.arrow_right,size: 50,))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                        children: [
-                          IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
-                          IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
-                          IconButton(onPressed: (){}, icon: Icon(Icons.share)),
-                        ],
-                      ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                  return NegativeScreen();
+                                }));
+                              }, icon: Icon(Icons.arrow_left,size: 50,)),
+                              IconButton(onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                  return PositiveScreen();
+                                }));
+                              }, icon: Icon(Icons.arrow_right,size: 50,))
+                            ],
+                          ),
+                        ),
+                        // Container(
+                        //   alignment: Alignment.bottomCenter,
+                        //   child: Row(
+                        //     children: [
+                        //       IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
+                        //       IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
+                        //       IconButton(onPressed: (){}, icon: Icon(Icons.share)),
+                        //     ],
+                        //   ),
+                        // )
+                      ],
                     )
-                  ],
                 )
-              )
             );
-      }): currentTabIndex==1?Container():Container(),
+          }
+        )
+
+      // TikTokStyleFullPageScroller(
+      //     contentSize: DATA.length,
+      //     swipePositionThreshold: 0.2,
+      //     swipeVelocityThreshold: 2000,
+      //     animationDuration: const Duration(milliseconds: 400),
+      //     controller: controller,
+      //     builder: (context,index){
+      //       return Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Container(
+      //           width: MediaQuery.of(context).size.width,
+      //           height: MediaQuery.of(context).size.height/1.3,
+      //           decoration: BoxDecoration(
+      //             color: Colors.white,
+      //             borderRadius: BorderRadius.all(Radius.circular(10))
+      //           ),
+      //           child: Stack(
+      //             children: [
+      //               Container(//video container
+      //                 width: MediaQuery.of(context).size.width,
+      //                 height: MediaQuery.of(context).size.height/1.3,
+      //                 decoration: BoxDecoration(
+      //                     color: Colors.white,
+      //                     borderRadius: BorderRadius.all(Radius.circular(10))
+      //                 ),
+      //                 child: DATA[index]["tag"] == "video"?
+      //                 Container(
+      //                   width: MediaQuery.of(context).size.width,
+      //                   height: MediaQuery.of(context).size.height/1.3,
+      //                   decoration: BoxDecoration(
+      //                       color: Colors.white,
+      //                       borderRadius: BorderRadius.all(Radius.circular(10))
+      //                   ),
+      //                   child: VideoScreen(),
+      //                 ):
+      //                 DATA[index]["tag"] == "imageAndText"?
+      //                 Container(
+      //                   width: MediaQuery.of(context).size.width,
+      //                   height: MediaQuery.of(context).size.height/1.3,
+      //                   //imagetext
+      //                 ):
+      //                 Container(
+      //                   width: MediaQuery.of(context).size.width,
+      //                   height: MediaQuery.of(context).size.height/1.3,
+      //                   //text
+      //                 ),
+      //               ),
+      //               Container(
+      //                 alignment: Alignment.center,
+      //                 width: MediaQuery.of(context).size.width,
+      //                 child: Row(
+      //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                   children: [
+      //                     IconButton(onPressed: (){
+      //                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
+      //                         return NegativeScreen();
+      //                       }));
+      //                     }, icon: Icon(Icons.arrow_left,size: 50,)),
+      //                     IconButton(onPressed: (){
+      //                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
+      //                         return PositiveScreen();
+      //                       }));
+      //                     }, icon: Icon(Icons.arrow_right,size: 50,))
+      //                   ],
+      //                 ),
+      //               ),
+      //               Container(
+      //                 alignment: Alignment.bottomCenter,
+      //                 child: Row(
+      //                   children: [
+      //                     IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
+      //                     IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
+      //                     IconButton(onPressed: (){}, icon: Icon(Icons.share)),
+      //                   ],
+      //                 ),
+      //               )
+      //             ],
+      //           )
+      //         )
+      //       );
+      // })
+          : currentTabIndex==1?Container():Container(),
     );
   }
 }
