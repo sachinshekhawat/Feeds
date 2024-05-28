@@ -1,7 +1,7 @@
 final DATA = [
   {
     "tag":"video",
-    "url":"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+    "url":"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     "text":"",
     "likes":0,
     "dislikes":0,

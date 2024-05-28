@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-class NegativeScreen extends StatefulWidget {
-  const NegativeScreen({super.key});
+import 'package:flutter_projects/screens/home_screen.dart'; // Make sure the path is correct
 
+class NegativeScreen extends StatefulWidget {
   @override
-  State<NegativeScreen> createState() => _NegativeScreenState();
+  _NegativeScreenState createState() => _NegativeScreenState();
 }
 
 class _NegativeScreenState extends State<NegativeScreen> {
@@ -12,22 +12,37 @@ class _NegativeScreenState extends State<NegativeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        title: Text("Negative Screen",style: TextStyle(color: Colors.black),),
-        actions: [
-          IconButton(onPressed: (){
+        title: Text(
+          "Negative Screen",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      body: GestureDetector(
+        onHorizontalDragUpdate: (details) {
+          if (details.delta.dx < 0) {
             Navigator.of(context).pop();
-          }, icon: Icon(Icons.arrow_forward,color: Colors.black,))
-        ],
+          }
+        },
+        child: Center(
+          child: Text(
+            "Negative Screen Content",
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
-        child: FloatingActionButton(
-          onPressed: (){
-
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            // Define what happens when the button is pressed
           },
-          child: Icon(Icons.arrow_drop_up,size: 40,),
+          label: Row(
+            children: [
+              Icon(Icons.arrow_drop_down, size: 30),
+              Text("See more"),
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,9 @@
-//import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_projects/screens/negative_screen.dart';
 import 'package:flutter_projects/screens/positive_screen.dart';
 import 'package:flutter_projects/screens/video_screen.dart';
 import 'package:flutter_projects/services/json_service.dart';
-import 'package:tiktoklikescroller/tiktoklikescroller.dart';
-import 'package:video_player/video_player.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,315 +12,108 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   int currentTabIndex = 0;
 
-  List<Widget> list = [];
+  PageController _pageController = PageController();
 
-  void makeWidgetList(BuildContext context){
-    int n = DATA.length;
-    for(int i=0;i<n;i++){
-      //setState(() {
-        list.add(
+  @override
+  void initState() {
+    super.initState();
+  }
 
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/1.3,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))
-                    ),
-                    child: Stack(
-                      children: [
-                        Container(//video container
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height/1.3,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
-                          child: DATA[i]["tag"] == "video"?
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(10))
-                            ),
-                            child: VideoScreen(),
-                          ):
-                          DATA[i]["tag"] == "imageAndText"?
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
-                            //imagetext
-                          ):
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
-                            //text
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return NegativeScreen();
-                                }));
-                              }, icon: Icon(Icons.arrow_left,size: 50,)),
-                              IconButton(onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return PositiveScreen();
-                                }));
-                              }, icon: Icon(Icons.arrow_right,size: 50,))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            children: [
-                              IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
-                              IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
-                              IconButton(onPressed: (){}, icon: Icon(Icons.share)),
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                )
-            )
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
-        );
-      //});
+  void _onHorizontalDrag(DragUpdateDetails details) {
+    if (details.delta.dx > 0) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return NegativeScreen();
+      }));
+    } else if (details.delta.dx < 0) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return PositiveScreen();
+      }));
     }
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    //makeWidgetList(context);
-  }
-
-  PageController pageController = PageController();
-
-  // void _handleCallbackEvent(ScrollDirection direction, ScrollSuccess success,
-  //     {int? currentIndex}) {
-  //   print("Scroll callback received with data: {direction: $direction, success: $success and index: ${currentIndex ?? 'not given'}}");
-  //
-  // }
-
-  final ValueNotifier<int> buildCount = ValueNotifier<int>(0);
-
-  @override
   Widget build(BuildContext context) {
-
-    // final Controller controller = Controller()..addListener((event) {
-    //   _handleCallbackEvent(event.direction, event.success);
-    // });
-
-    //makeWidgetList(context);
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text("Tamarind",style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.grey[100],
+        title: Text(
+          "Tamarind",
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.person,color: Colors.black,)),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.person, color: Colors.black),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.values.last,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.camera),label: "Tab 1"),
-            BottomNavigationBarItem(icon: Icon(Icons.camera),label: "Tab 2"),
-            BottomNavigationBarItem(icon: Icon(Icons.camera),label: "Tab 3"),
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.movie_creation), label: "Reels"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
         currentIndex: currentTabIndex,
-        onTap: (index){
-            setState(() {
-              currentTabIndex = index;
-            });
+        onTap: (index) {
+          setState(() {
+            currentTabIndex = index;
+          });
         },
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
       ),
-      body: currentTabIndex==0?
-
-        ListView.builder(
+      body: GestureDetector(
+        onHorizontalDragUpdate: _onHorizontalDrag,
+        child: currentTabIndex == 0
+            ? PageView.builder(
+          controller: _pageController,
           itemCount: DATA.length,
           scrollDirection: Axis.vertical,
-          addAutomaticKeepAlives: false,
-          // onPageChanged: (num){
-          //   buildCount.value++;
-          // },
-          itemBuilder: (context,i){
+          itemBuilder: (context, i) {
             return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/1.3,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 1.3,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
                     ),
-                    child: Stack(
-                      children: [
-                        Container(//video container
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height/1.3,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
-                          child: DATA[i]["tag"] == "video"?
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(10))
-                            ),
-                            child: VideoScreen(),
-                          ):
-                          DATA[i]["tag"] == "imageAndText"?
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
-                            //imagetext
-                          ):
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
-                            //text
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return NegativeScreen();
-                                }));
-                              }, icon: Icon(Icons.arrow_left,size: 50,)),
-                              IconButton(onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return PositiveScreen();
-                                }));
-                              }, icon: Icon(Icons.arrow_right,size: 50,))
-                            ],
-                          ),
-                        ),
-                        // Container(
-                        //   alignment: Alignment.bottomCenter,
-                        //   child: Row(
-                        //     children: [
-                        //       IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
-                        //       IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
-                        //       IconButton(onPressed: (){}, icon: Icon(Icons.share)),
-                        //     ],
-                        //   ),
-                        // )
-                      ],
-                    )
+                  ],
+                ),
+                child: DATA[i]["tag"] == "video"
+                    ? VideoScreen()
+                    : DATA[i]["tag"] == "imageAndText"
+                    ? Container(
+                  // Add your image and text widget here
                 )
+                    : Container(
+                  // Add your text widget here
+                ),
+              ),
             );
-          }
+          },
         )
-
-      // TikTokStyleFullPageScroller(
-      //     contentSize: DATA.length,
-      //     swipePositionThreshold: 0.2,
-      //     swipeVelocityThreshold: 2000,
-      //     animationDuration: const Duration(milliseconds: 400),
-      //     controller: controller,
-      //     builder: (context,index){
-      //       return Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: Container(
-      //           width: MediaQuery.of(context).size.width,
-      //           height: MediaQuery.of(context).size.height/1.3,
-      //           decoration: BoxDecoration(
-      //             color: Colors.white,
-      //             borderRadius: BorderRadius.all(Radius.circular(10))
-      //           ),
-      //           child: Stack(
-      //             children: [
-      //               Container(//video container
-      //                 width: MediaQuery.of(context).size.width,
-      //                 height: MediaQuery.of(context).size.height/1.3,
-      //                 decoration: BoxDecoration(
-      //                     color: Colors.white,
-      //                     borderRadius: BorderRadius.all(Radius.circular(10))
-      //                 ),
-      //                 child: DATA[index]["tag"] == "video"?
-      //                 Container(
-      //                   width: MediaQuery.of(context).size.width,
-      //                   height: MediaQuery.of(context).size.height/1.3,
-      //                   decoration: BoxDecoration(
-      //                       color: Colors.white,
-      //                       borderRadius: BorderRadius.all(Radius.circular(10))
-      //                   ),
-      //                   child: VideoScreen(),
-      //                 ):
-      //                 DATA[index]["tag"] == "imageAndText"?
-      //                 Container(
-      //                   width: MediaQuery.of(context).size.width,
-      //                   height: MediaQuery.of(context).size.height/1.3,
-      //                   //imagetext
-      //                 ):
-      //                 Container(
-      //                   width: MediaQuery.of(context).size.width,
-      //                   height: MediaQuery.of(context).size.height/1.3,
-      //                   //text
-      //                 ),
-      //               ),
-      //               Container(
-      //                 alignment: Alignment.center,
-      //                 width: MediaQuery.of(context).size.width,
-      //                 child: Row(
-      //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                   children: [
-      //                     IconButton(onPressed: (){
-      //                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
-      //                         return NegativeScreen();
-      //                       }));
-      //                     }, icon: Icon(Icons.arrow_left,size: 50,)),
-      //                     IconButton(onPressed: (){
-      //                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
-      //                         return PositiveScreen();
-      //                       }));
-      //                     }, icon: Icon(Icons.arrow_right,size: 50,))
-      //                   ],
-      //                 ),
-      //               ),
-      //               Container(
-      //                 alignment: Alignment.bottomCenter,
-      //                 child: Row(
-      //                   children: [
-      //                     IconButton(onPressed: (){}, icon: Icon(Icons.thumb_up_alt_outlined)),
-      //                     IconButton(onPressed: (){}, icon: Icon(Icons.thumb_down_alt_outlined)),
-      //                     IconButton(onPressed: (){}, icon: Icon(Icons.share)),
-      //                   ],
-      //                 ),
-      //               )
-      //             ],
-      //           )
-      //         )
-      //       );
-      // })
-          : currentTabIndex==1?Container():Container(),
+            : currentTabIndex == 1
+            ? Container() // Placeholder for Reels screen
+            : Container(), // Placeholder for Profile screen
+      ),
     );
   }
 }
