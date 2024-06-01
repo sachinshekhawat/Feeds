@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { userInfoDataCheckMiddleware } from './middlewares.js';
+import { contentDataCheckMiddleware, userInfoDataCheckMiddleware } from './middlewares.js';
 import mongoose from './index.mjs';
 
 const router = Router();
@@ -24,6 +24,134 @@ router.post('/addUser',userInfoDataCheckMiddleware,(request,response)=>{
     })
     .catch((err)=>{
         return response.status(400).send({msg:"Error while resgistering"});
+    })
+})
+
+router.post('/addContent',contentDataCheckMiddleware,(request,response)=>{
+    const {body} = request;
+    const contentModel = mongoose.model("contents",new mongoose.Schema({
+        contentUrl:String,
+        contentType:String,
+        likes:Number,
+        dislikes:Number,
+        shares:Number,
+        creationDate:String,
+        tags:[
+            String
+        ],
+        rightViewContent:String,
+        leftViewContent:String
+    }))
+    let data = new contentModel({
+        contentType:body.contentType,
+        contentUrl:body.contentUrl,
+        likes:body.likes,
+        dislikes:body.dislikes,
+        shares:body.shares,
+        creationDate:body.creationDate,
+        tags:body.tags,
+        rightViewContent:body.rightViewContent,
+        leftViewContent:body.leftViewContent
+    })
+    data.save()
+    .then((res)=>{
+        return response.status(200).send(res);
+    })
+    .catch((err)=>{
+        return response.status(400).send({msg:"Something went wrong"});
+    })
+})
+
+router.get('/addLike',(request,response)=>{
+    const {params} = request;
+    const contentId = params.id;
+    const contentModel = mongoose.model("contents",new mongoose.Schema({
+        contentUrl:String,
+        contentType:String,
+        likes:Number,
+        dislikes:Number,
+        shares:Number,
+        creationDate:String,
+        tags:[
+            String
+        ],
+        rightViewContent:String,
+        leftViewContent:String
+    }))
+    contentModel.updateOne(
+        {id:contentId},
+        {
+            $inc:{
+                likes:1
+            }
+        }
+    ).then((res)=>{
+        return response.status(200).send(res);
+    })
+    .catch((err)=>{
+        return response.status(400).send({msg:"Something went wrong"});
+    })
+})
+
+router.get('/addDisLike',(request,response)=>{
+    const {params} = request;
+    const contentId = params.id;
+    const contentModel = mongoose.model("contents",new mongoose.Schema({
+        contentUrl:String,
+        contentType:String,
+        likes:Number,
+        dislikes:Number,
+        shares:Number,
+        creationDate:String,
+        tags:[
+            String
+        ],
+        rightViewContent:String,
+        leftViewContent:String
+    }))
+    contentModel.updateOne(
+        {id:contentId},
+        {
+            $inc:{
+                dislikes:1
+            }
+        }
+    ).then((res)=>{
+        return response.status(200).send(res);
+    })
+    .catch((err)=>{
+        return response.status(400).send({msg:"Something went wrong"});
+    })
+})
+
+router.get('/addShare',(request,response)=>{
+    const {params} = request;
+    const contentId = params.id;
+    const contentModel = mongoose.model("contents",new mongoose.Schema({
+        contentUrl:String,
+        contentType:String,
+        likes:Number,
+        dislikes:Number,
+        shares:Number,
+        creationDate:String,
+        tags:[
+            String
+        ],
+        rightViewContent:String,
+        leftViewContent:String
+    }))
+    contentModel.updateOne(
+        {id:contentId},
+        {
+            $inc:{
+                shares:1
+            }
+        }
+    ).then((res)=>{
+        return response.status(200).send(res);
+    })
+    .catch((err)=>{
+        return response.status(400).send({msg:"Something went wrong"});
     })
 })
 
