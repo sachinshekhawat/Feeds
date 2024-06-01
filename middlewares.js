@@ -75,28 +75,16 @@ module.exports={
             else if(!((typeof creatorId=="string") && !(creatorId===""))){
                 return response.status(400).send({msg:"creatorId field is invalid type or empty"});
             }
-            if(!likes){
-                return response.status(400).send({msg:"likes field is required"});
-            }
-            else if(!((typeof likes=="number"))){
+            if(!((typeof likes=="number"))){
                 return response.status(400).send({msg:"likes field is invalid type or empty"});
             }
-            if(!dislikes){
-                return response.status(400).send({msg:"dislikes field is required"});
-            }
-            else if(!((typeof dislikes=="number"))){
+            if(!((typeof dislikes=="number"))){
                 return response.status(400).send({msg:"dislikes field is invalid type or empty"});
             }
-            if(!shares){
-                return response.status(400).send({msg:"shares field is required"});
-            }
-            else if(!((typeof shares=="number"))){
+            if(!((typeof shares=="number"))){
                 return response.status(400).send({msg:"shares field is invalid type or empty"});
             }
-            if(!tags){
-                return response.status(400).send({msg:"tags field is required"});
-            }
-            else if(!(tags instanceof Array) || tags.length==0){
+            if(!(tags instanceof Array) || tags.length==0){
                 return response.status(400).send({msg:"tags field is invalid type or empty"});
             }
             if(rightViewContent){

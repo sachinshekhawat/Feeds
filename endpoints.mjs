@@ -1,5 +1,6 @@
 import {Router} from 'express';
-import { contentDataCheckMiddleware, userInfoDataCheckMiddleware } from './middlewares.js';
+import pkg from './middlewares.js';
+const { contentDataCheckMiddleware, userInfoDataCheckMiddleware } = pkg;
 import mongoose from './index.mjs';
 
 const router = Router();
@@ -30,6 +31,7 @@ router.post('/addUser',userInfoDataCheckMiddleware,(request,response)=>{
 router.post('/addContent',contentDataCheckMiddleware,(request,response)=>{
     const {body} = request;
     const contentModel = mongoose.model("contents",new mongoose.Schema({
+        id:String,
         contentUrl:String,
         contentType:String,
         likes:Number,
@@ -66,6 +68,7 @@ router.get('/addLike',(request,response)=>{
     const {params} = request;
     const contentId = params.id;
     const contentModel = mongoose.model("contents",new mongoose.Schema({
+        id:String,
         contentUrl:String,
         contentType:String,
         likes:Number,
