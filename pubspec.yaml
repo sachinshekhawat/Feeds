@@ -39,6 +39,7 @@ dependencies:
   flutter_cache_manager: ^3.3.2
   tiktoklikescroller: ^0.2.6
   visibility_detector: ^0.4.0+2
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:

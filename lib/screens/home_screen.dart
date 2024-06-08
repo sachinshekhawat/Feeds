@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // Import smooth_page_indicator
 import 'package:flutter_projects/screens/negative_screen.dart';
 import 'package:flutter_projects/screens/positive_screen.dart';
 import 'package:flutter_projects/screens/video_screen.dart';
@@ -13,8 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentTabIndex = 0;
-
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
 
   @override
   void initState() {
@@ -25,18 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
-  }
-
-  void _onHorizontalDrag(DragUpdateDetails details) {
-    if (details.delta.dx > 0) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return NegativeScreen();
-      }));
-    } else if (details.delta.dx < 0) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return PositiveScreen();
-      }));
-    }
   }
 
   @override
@@ -72,47 +60,106 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
       ),
-      body: GestureDetector(
-        onHorizontalDragUpdate: _onHorizontalDrag,
-        child: currentTabIndex == 0
-            ? PageView.builder(
-          controller: _pageController,
-          itemCount: DATA.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, i) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.3,
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+      body: currentTabIndex == 0
+          ? Column(
+        children: [
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              children: [
+                _buildCard(context, NegativeScreen()), // Left card (Negative)
+                _buildHomeCard(context),                // Middle card (Home)
+                _buildCard(context, PositiveScreen()),  // Right card (Positive)
+              ],
+            ),
+          ),
+          _buildPageIndicator(),
+        ],
+      )
+          : currentTabIndex == 1
+          ? Container() // Placeholder for Reels screen
+          : Container(), // Placeholder for Profile screen
+    );
+  }
+
+  Widget _buildCard(BuildContext context, Widget screen) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 1.3,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              spreadRadius: 2,
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: screen,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHomeCard(BuildContext context) {
+    return PageView.builder(
+      itemCount: DATA.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (context, i) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 1.3,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  spreadRadius: 2,
+                  blurRadius: 10,
+                  offset: Offset(0, 4),
                 ),
-                child: DATA[i]["tag"] == "video"
-                    ? VideoScreen()
-                    : DATA[i]["tag"] == "imageAndText"
-                    ? Container(
-                  // Add your image and text widget here
-                )
-                    : Container(
-                  // Add your text widget here
-                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: DATA[i]["tag"] == "video"
+                  ? VideoScreen()
+                  : DATA[i]["tag"] == "imageAndText"
+                  ? Container(
+                // Add your image and text widget here
+              )
+                  : Container(
+                // Add your text widget here
               ),
-            );
-          },
-        )
-            : currentTabIndex == 1
-            ? Container() // Placeholder for Reels screen
-            : Container(), // Placeholder for Profile screen
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildPageIndicator() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: SmoothPageIndicator(
+        controller: _pageController,
+        count: 3, // Number of pages
+        effect: WormEffect(
+          dotHeight: 12.0,
+          dotWidth: 12.0,
+          activeDotColor: Colors.blue,
+          dotColor: Colors.grey,
+        ),
       ),
     );
   }
