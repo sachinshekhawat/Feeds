@@ -58,7 +58,18 @@ class _VideoScreenState extends State<VideoScreen> {
                 isPlaying = controller.value.isPlaying;
               });
             },
-            child: VideoPlayer(controller),
+            child: VisibilityDetector(
+                onVisibilityChanged: (VisibilityInfo info) {
+                  if(info.visibleFraction*100<20){
+                    setState(() {
+                      if (controller.value.isPlaying) {
+                        controller.pause();
+                      }
+                    });
+                  }
+                },
+                key: Key("unique key"),
+                child: VideoPlayer(controller)),
           ),
           Positioned.fill(
             child: Align(
