@@ -35,9 +35,8 @@ class _PositiveScreenState extends State<PositiveScreen> {
           },
           label: Row(
             children: [
-              Icon(Icons.arrow_drop_down, size: 30),
-              SizedBox(width: 5), // Add some space between the icon and text
-              Text("See more"),
+              Icon(Icons.arrow_drop_down, size: 20),
+              Text("See more",style: TextStyle(fontSize: 10),),
             ],
           ),
         ),

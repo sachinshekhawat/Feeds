@@ -12,7 +12,7 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   late VideoPlayerController controller;
-  bool isPlaying = false;
+  bool isPlaying = true;
 
   @override
   void dispose() {
@@ -30,13 +30,14 @@ class _VideoScreenState extends State<VideoScreen> {
       setState(() {}); // Ensure the first frame is shown after the video is initialized
     });
     controller.setLooping(false); // Ensure the video does not loop
-    controller.addListener(() {
-      if (controller.value.position == controller.value.duration) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
-    });
+    controller.play();
+    // controller.addListener(() {
+    //   if (controller.value.position == controller.value.duration) {
+    //     setState(() {
+    //       isPlaying = false;
+    //     });
+    //   }
+    // });
     VideoModel.controller = controller;
   }
 
@@ -71,28 +72,12 @@ class _VideoScreenState extends State<VideoScreen> {
                 key: Key("unique key"),
                 child: VideoPlayer(controller)),
           ),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.center,
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    if (controller.value.isPlaying) {
-                      controller.pause();
-                    } else {
-                      controller.play();
-                    }
-                    isPlaying = controller.value.isPlaying;
-                  });
-                },
-                icon: Icon(
-                  isPlaying ? Icons.pause : Icons.play_arrow,
-                  size: 50,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
+          // Positioned.fill(
+          //   child: Align(
+          //     alignment: Alignment.center,
+          //     child:
+          //   ),
+          // ),
           Positioned(
             bottom: 0,
             right: 0,
@@ -100,11 +85,28 @@ class _VideoScreenState extends State<VideoScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.thumb_up_alt_outlined)),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (controller.value.isPlaying) {
+                        controller.pause();
+                      } else {
+                        controller.play();
+                      }
+                      isPlaying = controller.value.isPlaying;
+                    });
+                  },
+                  icon: Icon(
+                    isPlaying ? Icons.pause : Icons.play_arrow,
+                    //size: 50,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.thumb_up_alt_outlined,color: Colors.grey,)),
                 SizedBox(height: 10),
-                IconButton(onPressed: () {}, icon: Icon(Icons.telegram)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.share,color: Colors.grey,)),
                 SizedBox(height: 10),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.more_vert,color: Colors.grey,)),
               ],
             ),
           ),

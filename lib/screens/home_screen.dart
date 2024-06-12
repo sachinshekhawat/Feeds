@@ -76,28 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCard(BuildContext context, Widget screen) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 1.3,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              spreadRadius: 2,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: screen,
-        ),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: screen,
     );
   }
 
@@ -107,26 +88,29 @@ class _HomeScreenState extends State<HomeScreen> {
       scrollDirection: Axis.vertical,
       itemBuilder: (context, i) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 0.0),
           child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 1.3,
+            //width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height / 1.3,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  spreadRadius: 2,
-                  blurRadius: 10,
-                  offset: Offset(0, 4),
-                ),
-              ],
+              color: Colors.transparent,
+              // borderRadius: BorderRadius.all(Radius.circular(20)),
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.black26,
+              //     spreadRadius: 1,
+              //     blurRadius: 5,
+              //     offset: Offset(0, 2),
+              //   ),
+              // ],
             ),
             child: PageView(
               controller: _pageController,
               children: [
-                _buildCard(context, NegativeScreen()), // Left card (Negative)
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: _buildCard(context, NegativeScreen()),
+                ), // Left card (Negative)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: DATA[i]["tag"] == "video"
@@ -139,7 +123,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Add your text widget here
                   ),
                 ),         // Middle card (Home)
-                _buildCard(context, PositiveScreen()),  // Right card (Positive)
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: _buildCard(context, PositiveScreen()),
+                ),  // Right card (Positive)
               ],
             ),
           ),
@@ -150,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildPageIndicator() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: SmoothPageIndicator(
         controller: _pageController,
         count: 3, // Number of pages

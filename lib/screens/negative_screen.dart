@@ -32,8 +32,8 @@ class _NegativeScreenState extends State<NegativeScreen> {
           },
           label: Row(
             children: [
-              Icon(Icons.arrow_drop_down, size: 30),
-              Text("See more"),
+              Icon(Icons.arrow_drop_down, size: 20),
+              Text("See more",style: TextStyle(fontSize: 10),),
             ],
           ),
         ),
