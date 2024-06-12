@@ -11,13 +11,6 @@ class _PositiveScreenState extends State<PositiveScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Positive Screen",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
       body: GestureDetector(
         onHorizontalDragUpdate: (details) {
           if (details.delta.dx > 0) {

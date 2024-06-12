@@ -64,14 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Column(
         children: [
           Expanded(
-            child: PageView(
-              controller: _pageController,
-              children: [
-                _buildCard(context, NegativeScreen()), // Left card (Negative)
-                _buildHomeCard(context),                // Middle card (Home)
-                _buildCard(context, PositiveScreen()),  // Right card (Positive)
-              ],
-            ),
+            child:_buildHomeCard(context)
           ),
           _buildPageIndicator(),
         ],
@@ -89,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 1.3,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
@@ -130,17 +123,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: DATA[i]["tag"] == "video"
-                  ? VideoScreen()
-                  : DATA[i]["tag"] == "imageAndText"
-                  ? Container(
-                // Add your image and text widget here
-              )
-                  : Container(
-                // Add your text widget here
-              ),
+            child: PageView(
+              controller: _pageController,
+              children: [
+                _buildCard(context, NegativeScreen()), // Left card (Negative)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: DATA[i]["tag"] == "video"
+                      ? VideoScreen()
+                      : DATA[i]["tag"] == "imageAndText"
+                      ? Container(
+                    // Add your image and text widget here
+                  )
+                      : Container(
+                    // Add your text widget here
+                  ),
+                ),         // Middle card (Home)
+                _buildCard(context, PositiveScreen()),  // Right card (Positive)
+              ],
             ),
           ),
         );
